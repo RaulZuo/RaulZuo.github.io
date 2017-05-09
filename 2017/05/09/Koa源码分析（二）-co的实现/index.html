@@ -1,0 +1,748 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node.js,koa," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现">
+<meta name="keywords" content="node.js,koa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Koa源码分析（二） -- co的实现">
+<meta property="og:url" content="http://yoursite.com/2017/05/09/Koa源码分析（二）-co的实现/index.html">
+<meta property="og:site_name" content="RaulZuo&#39;s Blog">
+<meta property="og:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现">
+<meta property="og:updated_time" content="2017-05-09T10:37:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Koa源码分析（二） -- co的实现">
+<meta name="twitter:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/09/Koa源码分析（二）-co的实现/"/>
+
+
+
+
+
+  <title>Koa源码分析（二） -- co的实现 | RaulZuo's Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RaulZuo's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hunger，Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/09/Koa源码分析（二）-co的实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RaulZuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RaulZuo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Koa源码分析（二） -- co的实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T18:30:56+08:00">
+                2017-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
+<ol>
+<li><a href="/2017/05/09/Koa源码分析（一）-generator/">Koa源码分析（一） – generator</a></li>
+<li><a href="/2017/05/09/Koa源码分析（二）-co的实现/">Koa源码分析（二） – co的实现</a></li>
+<li><a href="/2017/05/09/Koa源码分析（三）-middleware机制的实现/">Koa源码分析（三） – middleware机制的实现</a></li>
+</ol>
+<a id="more"></a><!--more-->
+<h2 id="co"><a href="#co" class="headerlink" title="co"></a>co</h2><p>大名鼎鼎的co是什么？它是<a href="https://github.com/tj" target="_blank" rel="external">TJ大神</a>基于ES6的一些新特性开发的异步流程控制库，基于它所开发的<a href="https://github.com/koajs/koa" target="_blank" rel="external">koa</a>被视为未来主流的web框架。</p>
+<p>koa基于co实现，而co又是使用了ES6的generator和promise特性。如果还不理解，可以查看阮一峰老师的<a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="external">《ECMAScript 6 入门 — Generator》</a>和<a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="external">《ECMAScript 6 入门 — Promise》</a>。目前co升级为4.X版本事，代码进行了一次颇有规模的重构，我们主要关注co（4.X）的实现思路和源码分析。</p>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">co(function* ()&#123;</div><div class="line">    var a = yield Promise.resolve(&apos;one&apos;);</div><div class="line">    console.log(a);</div><div class="line">    var b = yield Promise.reslove(&apos;two&apos;);</div><div class="line">    console.log(b);</div><div class="line">    return &apos;three&apos;;</div><div class="line">&#125;).then((value) =&gt; console.log(value));</div><div class="line">// one</div><div class="line">// two</div><div class="line">// three</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">co(function* ()&#123;</div><div class="line">    var res = yield [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];</div><div class="line">    return res;</div><div class="line">&#125;).then((value) =&gt; console.log(res));</div><div class="line">// [1, 2, 3]</div></pre></td></tr></table></figure>
+<p>根据co的功能，它作为异步流程控制的作用，自动调用generator对象的next()方法，实现generator函数的运行，并返回最终运行的结果。</p>
+<p>如果要涉及到co的实现细节，我们就会存在以下几个疑问：</p>
+<ol>
+<li>如何依次调用next()方法</li>
+<li>如何将<strong>yield</strong>后边运算异步结果返回给对应的变量</li>
+<li>co自身如何返回generator函数最后的return值</li>
+</ol>
+<p>接下来我们正对以上问题，分析TJ大神的源码</p>
+<h2 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h2><h4 id="co源码的流程控制"><a href="#co源码的流程控制" class="headerlink" title="co源码的流程控制"></a>co源码的流程控制</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">function co(gen) &#123;</div><div class="line">    // 保持当前函数的上下文</div><div class="line">    var ctx = this;</div><div class="line">    // 截取co输入的参数，剔除arguments中的第一个参数，即gen对象，剩余参数作为gen的入参</div><div class="line">    var args = slice.call(arguments, 1);</div><div class="line">    </div><div class="line">    // 返回一个Promise对象，即最外围Promise对象</div><div class="line">    return new Promise(function(resolve, reject) &#123;</div><div class="line">        // 判断传入的gen是否为函数，若是则执行，将结果赋值给gen对象</div><div class="line">        // 若不是，则不执行</div><div class="line">        if (typeof gen === &apos;function&apos;) gen = gen.apply(ctx, args);</div><div class="line">        // 根据generator函数执行结果是否存在next字段，判断gen是否为generator迭代器对象</div><div class="line">        // 若不是，则调用resolve返回最外围Promise对象的状态</div><div class="line">        if (!gen || typeof gen.next !== &apos;function&apos;) return resolve(gen);</div><div class="line">        </div><div class="line">        // 若是generator迭代器对象，开始控制gen.next()方法的调用</div><div class="line">        onFulfilled();</div><div class="line"></div><div class="line">        // 两个用途</div><div class="line">        // 一、generator函数的执行入口</div><div class="line">        // 二、当做所有内部Promise对象的resolve方法，处理异步结果，并继续调用下一个Promise</div><div class="line">        function onFulfilled(res) &#123;</div><div class="line">            var ret;</div><div class="line">            try &#123;</div><div class="line">                // gen运行至yield处被挂起，开始处理异步操作，并将异步操作的结果返回给ret.value</div><div class="line">                ret = gen.next(res);</div><div class="line">            &#125; catch (e) &#123;</div><div class="line">                // 若报错，直接调用reject返回外围Promise对象的状态，并传出错误对象</div><div class="line">                return reject(e);</div><div class="line">            &#125;</div><div class="line">            // 将gen.next的执行结果传入next函数，实现依次串行调用gen.next方法</div><div class="line">            next(ret);</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 当做所有内部Promise对象的reject方法，处理异步结果，并继续调用下一个Promise</div><div class="line">        function onRejected(err) &#123;</div><div class="line">            var ret;</div><div class="line">            try &#123;</div><div class="line">                ret = gen.throw(err);</div><div class="line">            &#125; catch (e) &#123;</div><div class="line">                // 若报错，直接调用reject返回外围Promise对象的状态，并传出错误对象</div><div class="line">                return reject(e);</div><div class="line">            &#125;</div><div class="line">            // 将gen.throw的执行结果传入next函数，实现依次串行调用gen.next方法</div><div class="line">            next(ret);</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        // 实现串行调用gen.next的核心</div><div class="line">        function next(ret) &#123;</div><div class="line">            // 判断内部Promise是否全部执行完毕</div><div class="line">            // 若执行完毕，直接调用resolve改变外围Promise的状态，并返回最终的return值[问题3]</div><div class="line">            if (ret.done) return resolve(ret.value);</div><div class="line">            // 若未执行完毕，调用toPromise方法将上一个Promise返回的值转化为Promise对象</div><div class="line">            // 具体参见toPromise方法</div><div class="line">            var value = toPromise.call(ctx, ret.value);</div><div class="line">            // 根据value转化后的Promise对象的两个状态，执行下一个next方法</div><div class="line">            if (value &amp;&amp; isPromise(value)) return value.then(onFulfilled, onRejected);</div><div class="line">            // 抛出不符合转化规则的类型的值</div><div class="line">            return onRejected(new TypeError(&apos;You may only yield a function, promise, generator, array, or object, &apos;</div><div class="line">                + &apos;but the following object was passed: &quot;&apos; + String(ret.value) + &apos;&quot;&apos;));</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>源码分析完了，我们可以把co串行调用generator函数中yield的过程总结如下：</p>
+<ol>
+<li>进入外围Promise</li>
+<li>通过入口onFilfilled()方法，将generator函数运行至第一个yield处，执行该yield后边的异步操作，并将结果传入next方法</li>
+<li>如果next中传入结果的done为true，则返回外围Promise的resolve</li>
+<li>如果next中传入结果的done为true，则返回value（即yield后边的对象）是否可以转化为内部Promise对象。如无法转化，则抛出错误，返回外围Promise的reject</li>
+<li>若能转化为Promise对象，将所有内部Promise并行执行，通过then(onFilfilled, onRejected)开始执行</li>
+<li>在onFilfilled()或者onRejected()内部调用再次调用next()方法，实现串行执行yield，并肩yield后边的对象传递给next()，依次重复。</li>
+<li>所有yield执行返回，将最后的return值返回给外围Promise的resovle方法，结束co对generator函数的调用</li>
+</ol>
+<h4 id="yield后面对象转化为Promise"><a href="#yield后面对象转化为Promise" class="headerlink" title="yield后面对象转化为Promise"></a>yield后面对象转化为Promise</h4><p>能够在co中实现generator函数的逐步调用next()方法，转化为内部Promise将至关重要，而源码是如何转化的呢？哪些对象又是能够转化的呢？接下来，我们看下源码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">function toPromise(obj) &#123;</div><div class="line">    // 确保obj有意义</div><div class="line">    if (!obj) return obj;</div><div class="line">    // 若是Promise对象，则直接返回</div><div class="line">    if (isPromise(obj)) return obj;</div><div class="line">    // 若是generator函数或者generator对象，则传入一个新的co，并返回新co的外围Promise</div><div class="line">    // 作为当前co的内部Promise，这样实现多层级调用</div><div class="line">    if (isGeneratorFunction(obj) || isGenerator(obj)) return co.call(this, obj);</div><div class="line">    // 若是函数，则返回thunk规范的函数</div><div class="line">    if (&apos;function&apos; == typeof obj) return thunkToPromise.call(this, obj);</div><div class="line">    // 若是数组，把数组中每个元素转化为内部Promise，返回Promise.all并行运算</div><div class="line">    if (Array.isArray(obj)) return arrayToPromise.call(this, obj);</div><div class="line">    // 若是对象，遍历对象中的每个key对应的value，转化成Promise.all并行运算</div><div class="line">    if (isObject(obj)) return objectToPromise.call(this, obj);</div><div class="line">    return obj;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function thunkToPromise(fn) &#123;</div><div class="line">  var ctx = this;</div><div class="line">  return new Promise(function (resolve, reject) &#123;</div><div class="line">    fn.call(ctx, function (err, res) &#123;</div><div class="line">      if (err) return reject(err);</div><div class="line">      if (arguments.length &gt; 2) res = slice.call(arguments, 1);</div><div class="line">      resolve(res);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">function arrayToPromise(obj) &#123;</div><div class="line">    // Array.map并行计算返回每一个元素的Promise</div><div class="line">    return Promise.all(obj.map(toPromise, this));</div><div class="line">&#125;</div><div class="line"></div><div class="line">function objectToPromise(obj)&#123;</div><div class="line">  var results = new obj.constructor();</div><div class="line">  var keys = Object.keys(obj);</div><div class="line">  var promises = [];</div><div class="line">  for (var i = 0; i &lt; keys.length; i++) &#123;</div><div class="line">    var key = keys[i];</div><div class="line">    var promise = toPromise.call(this, obj[key]);</div><div class="line">    if (promise &amp;&amp; isPromise(promise)) defer(promise, key);</div><div class="line">    else results[key] = obj[key];</div><div class="line">  &#125;</div><div class="line">  // Promise链式调用，后续的then能偶获取此处的results</div><div class="line">  return Promise.all(promises).then(function () &#123;</div><div class="line">    return results;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  function defer(promise, key) &#123;</div><div class="line">    // key对应的元素成功转化为Promise对象后，构造这些Promise的resovle方法</div><div class="line">    // 以便在results中获取每个Promise对象成功执行后结果</div><div class="line">    results[key] = undefined;</div><div class="line">    promises.push(promise.then(function (res) &#123;</div><div class="line">      results[key] = res;</div><div class="line">    &#125;));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结合上述分析，我们可以得到，yield后面只能是<strong>函数、Promise对象、Generator函数、Generator迭代器对象、数组（元素仅限之前的4类）和Object(对应value仅限定之前的4类)</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node-js/" rel="tag"># node.js</a>
+          
+            <a href="/tags/koa/" rel="tag"># koa</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/09/Koa源码分析（一）-generator/" rel="next" title="Koa源码分析（一） -- generator">
+                <i class="fa fa-chevron-left"></i> Koa源码分析（一） -- generator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/09/Koa源码分析（三）-middleware机制的实现/" rel="prev" title="Koa源码分析（三） -- middleware机制的实现">
+                Koa源码分析（三） -- middleware机制的实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpeg"
+               alt="RaulZuo" />
+          <p class="site-author-name" itemprop="name">RaulZuo</p>
+           
+              <p class="site-description motion-element" itemprop="description">做一个有情怀的码农</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/RaulZuo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#co"><span class="nav-number">2.</span> <span class="nav-text">co</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用示例"><span class="nav-number">3.</span> <span class="nav-text">使用示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码解析"><span class="nav-number">4.</span> <span class="nav-text">源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#co源码的流程控制"><span class="nav-number">4.0.1.</span> <span class="nav-text">co源码的流程控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yield后面对象转化为Promise"><span class="nav-number">4.0.2.</span> <span class="nav-text">yield后面对象转化为Promise</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RaulZuo</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

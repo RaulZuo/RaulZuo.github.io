@@ -90,17 +90,17 @@
 
 
 
-<meta name="description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：">
+<meta name="description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现  Genetator函数Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。  详细解析可见阮一峰老师的《ECMAScri">
 <meta name="keywords" content="node.js,koa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Koa源码分析（一） -- generator">
 <meta property="og:url" content="http://yoursite.com/2017/05/09/Koa源码分析（一）-generator/index.html">
 <meta property="og:site_name" content="RaulZuo&#39;s Blog">
-<meta property="og:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：">
-<meta property="og:updated_time" content="2017-05-09T10:24:18.000Z">
+<meta property="og:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现  Genetator函数Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。  详细解析可见阮一峰老师的《ECMAScri">
+<meta property="og:updated_time" content="2017-05-09T10:38:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Koa源码分析（一） -- generator">
-<meta name="twitter:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：">
+<meta name="twitter:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现  Genetator函数Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。  详细解析可见阮一峰老师的《ECMAScri">
 
 
 
@@ -340,11 +340,16 @@
 
       
         <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
-<a id="more"></a><!--more-->
+<ol>
+<li><a href="/2017/05/09/Koa源码分析（一）-generator/">Koa源码分析（一） – generator</a></li>
+<li><a href="/2017/05/09/Koa源码分析（二）-co的实现/">Koa源码分析（二） – co的实现</a></li>
+<li><a href="/2017/05/09/Koa源码分析（三）-middleware机制的实现/">Koa源码分析（三） – middleware机制的实现</a></li>
+</ol>
 <h2 id="Genetator函数"><a href="#Genetator函数" class="headerlink" title="Genetator函数"></a>Genetator函数</h2><p>Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。</p>
 <blockquote>
 <p>详细解析可见阮一峰老师的<a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="external">《ECMAScript 6 入门 — Generator》</a></p>
 </blockquote>
+<a id="more"></a><!--more-->
 <h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><p>两大特征</p>
 <ol>
 <li><code>function</code> 关键字与函数名之间的 <code>*</code></li>
@@ -419,6 +424,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/05/09/Koa源码分析（二）-co的实现/" rel="prev" title="Koa源码分析（二） -- co的实现">
+                Koa源码分析（二） -- co的实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -489,7 +498,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
