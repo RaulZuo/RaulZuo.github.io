@@ -342,34 +342,14 @@
 
       
         
-          
-            <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
-<h2 id="Genetator函数"><a href="#Genetator函数" class="headerlink" title="Genetator函数"></a>Genetator函数</h2><p>Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。</p>
-<blockquote>
-<p>详细解析可见阮一峰老师的<a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="external">《ECMAScript 6 入门 — Generator》</a></p>
-</blockquote>
-<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><p>两大特征</p>
-<ol>
-<li><code>function</code> 关键字与函数名之间的 <code>*</code></li>
-<li>函数体内部使用 <code>yield</code> 语句</li>
-</ol>
-<p>我们定义一个generatorFunction示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function* firstGenerator() &#123;</div><div class="line">    var one = yield &apos;one&apos;;</div><div class="line">    console.log(one);</div><div class="line">    var two = yield &apos;two&apos;;</div><div class="line">    concole.log(two);</div><div class="line">    var third = yield &apos;third&apos;;</div><div class="line">    console.log(third);</div><div class="line">    return &apos;over&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>带有 <code>*</code> 的函数声明就代表 <code>firstGenerator</code> 函数是一个generator函数，函数里面的 yield 关键字可以理解为在当前位置设置断点，这一点如有疑问，可以看后续。</p>
-<h4 id="语法行为"><a href="#语法行为" class="headerlink" title="语法行为"></a>语法行为</h4><p>那generator函数的语法行为究竟与传统函数不同在哪里呢？下边我们来梳理下generator函数的运行步骤。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var it = firstGenerator();</div><div class="line">console.log(it.next(1));  // &#123;value: &quot;one&quot;, done: false&#125;</div><div class="line">console.log(it.next(2));  // &#123;value: &quot;two&quot;, done: false&#125;</div><div class="line">console.log(it.next(3));  // &#123;value: &quot;third&quot;, done: false&#125;</div><div class="line">console.log(it.next(4));  // &#123;value: &quot;over&quot;, done: true&#125;</div></pre></td></tr></table></figure>
-<p>首先通过执行 <code>firstGenerator</code> 函数，我们可以得到一个generator对象 <code>it</code>，它是一个迭代器对象。此时， <code>firstGenerator</code> 函数并<strong>未执行</strong>，只是返回了迭代器对象 <code>it</code> ，我们可以通过 <code>it</code> 对象中 <code>next</code> 方法触发 <code>firstGenerator</code> 函数开始执行，此时我们调用 <code>it.next(1)</code>，注意 <code>next</code> 注入的参数 <code>1</code> 并没有任何效果。当 <code>firstGenerator</code> 函数执行到 <code>yield</code> 语句时，被打了断点，停留在此处，并将 <code>yield</code> 后的变量传递给 <code>it.next(1)</code> 结果对象中的 <code>value</code> 字段，另外其中的 <code>done</code> 字段表示 <code>firstGenerator</code> 函数尚未完全执行完，还停留在断点。以此同时，将执行权交换给 <code>it.next(1)</code>。</p>
-<p>执行第二次 <code>it.next(2)</code>，执行权再次交给 <code>firstGenerator</code> 函数，并将 <code>next</code> 带入的参数传递给函数中的变量 <code>one</code>，此时输出 <code>2</code>。当运行到 <code>yield &#39;two&#39;</code> 语句时，再次将执行权返回给 <code>it.next(2)</code> 并传值。</p>
-<p>第三次执行 <code>it.next(3)</code>的过程与第二次完全一样。</p>
-<p>最后一次执行 <code>it.next(4)</code> 时，在此之前， <code>firstGenerator</code> 函数断点在 <code>var third = yield &#39;third&#39;</code>，当 <code>it.next(4)</code> 将执行权交给 <code>firstGenerator</code> 函数时，将 <code>4</code> 传递给变量 <code>third</code>，此刻输出 <code>4</code>。当执行到 <code>return</code> 语句时，整个函数已经执行完了，并将 <code>&#39;over&#39;</code>传递给 <code>it.next(4)</code> 返回结果中的 <code>value</code> 字段，且 <code>done</code> 字段为 <code>true</code>。<br>若没有 <code>return</code> 语句，则 <code>value</code> 字段返回 <code>null</code>。</p>
-<p>这样下来，整个 <code>firstGenerator</code> 整个函数执行完毕。<br>我们可以将Generator函数比喻成<strong>懒惰的癞蛤蟆</strong>，每次都需要使用<strong>it.next()</strong>方法戳一下，才会有对应的行动。<br>如果大家了解python中协程的概念，应该很好理解Generator函数的语法行为。</p>
-<h4 id="进阶语法"><a href="#进阶语法" class="headerlink" title="进阶语法"></a>进阶语法</h4><p>在Generator函数中 <code>yield</code> 的语法，其后边的值也可以是函数、对象等等。<br><code>yield</code> 后边可以是另一个Generator对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">function* subGen() &#123;</div><div class="line">    console.log(&apos;step in sub generator&apos;);</div><div class="line">    var b = yield &apos;sub 1&apos;;</div><div class="line">    console.log(b);</div><div class="line">    console.log(&apos;step out sub generator&apos;);</div><div class="line">&#125;</div><div class="line">var subGenerator = new subGen();</div><div class="line">function* mainGen() &#123;</div><div class="line">    var a = yield &apos;main 1&apos;;</div><div class="line">    console.log(a);</div><div class="line">    var b = yield *subGenerator;</div><div class="line">    console.log(b);</div><div class="line">    var c = yield &apos;main 2&apos;;</div><div class="line">    console.log(c);</div><div class="line">    return &apos;over&apos;;</div><div class="line">&#125;</div><div class="line">var it = mainGen();</div><div class="line">console.log(it.next(1));</div><div class="line">// &#123;value: &apos;main 1&apos;, done: false&#125;</div><div class="line">console.log(it.next(2));</div><div class="line">// 2</div><div class="line">// step in sub generator</div><div class="line">// &#123;value: &apos;sub 1&apos;, done: false&#125;</div><div class="line">console.log(it.next(3));</div><div class="line">// 3</div><div class="line">// step out sub generator</div><div class="line">// null</div><div class="line">// &#123;value: &apos;main 2&apos;, done: false&#125;</div><div class="line">console.log(it.next(4));</div><div class="line">// 4</div><div class="line">// &#123;value: &apos;over&apos;, done: true&#125;</div></pre></td></tr></table></figure>
-<p><code>yield</code> 后面跟着 <code>*subGenerator</code> 对象，这等同于断点就进入 <code>subGenerator</code> 的 <code>subGen</code>里面，等待 <code>subGen</code> 全部执行完后再回来继续执行，类似于递归。<br>直白点说，就是将 <code>subGen</code> 内嵌到 <code>mainGen</code>中。</p>
-<p><strong>在<code>subGen</code>函数中的return语句并不会起到断点的作用</strong></p>
-<h4 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h4><p>Generator函数作为ES6的新特性，通过它可以很好的解决JavaScript中的<strong>恶魔</strong>回调问题。<br>Koa框架使用这特性很好组织了异步代码的结构。</p>
-
-          
+          <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/09/Koa源码分析（一）-generator/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

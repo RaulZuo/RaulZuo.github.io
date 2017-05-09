@@ -90,17 +90,17 @@
 
 
 
-<meta name="description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面： Genetator函数Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。  详细解析可见阮一峰老师的《ECMAScript 6 入门 — Generator》  语法两大特征  function 关键字与函数名之间的 * 函数体内部使用 yield 语句  我们定">
+<meta name="description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：">
 <meta name="keywords" content="node.js,koa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Koa源码分析（一） -- generator">
 <meta property="og:url" content="http://yoursite.com/2017/05/09/Koa源码分析（一）-generator/index.html">
 <meta property="og:site_name" content="RaulZuo&#39;s Blog">
-<meta property="og:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面： Genetator函数Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。  详细解析可见阮一峰老师的《ECMAScript 6 入门 — Generator》  语法两大特征  function 关键字与函数名之间的 * 函数体内部使用 yield 语句  我们定">
-<meta property="og:updated_time" content="2017-05-09T10:20:59.000Z">
+<meta property="og:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：">
+<meta property="og:updated_time" content="2017-05-09T10:22:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Koa源码分析（一） -- generator">
-<meta name="twitter:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面： Genetator函数Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。  详细解析可见阮一峰老师的《ECMAScript 6 入门 — Generator》  语法两大特征  function 关键字与函数名之间的 * 函数体内部使用 yield 语句  我们定">
+<meta name="twitter:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：">
 
 
 
@@ -340,6 +340,7 @@
 
       
         <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
+<a id="more"></a>
 <h2 id="Genetator函数"><a href="#Genetator函数" class="headerlink" title="Genetator函数"></a>Genetator函数</h2><p>Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。</p>
 <blockquote>
 <p>详细解析可见阮一峰老师的<a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="external">《ECMAScript 6 入门 — Generator》</a></p>
