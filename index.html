@@ -343,11 +343,10 @@
       
         
           
-            <p>###使用场景<br>在移动端屏幕宽度有限的前提下，使用横向滚动的方式展示更多的内容。在这样的需求下，希望父元素作为容器，其宽度可以又横向排列资源的总宽度<strong>动态撑开</strong>，超过祖父元素的宽度；在不超过祖父元素时，自动继承100%的宽度。</p>
+            <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在移动端屏幕宽度有限的前提下，使用横向滚动的方式展示更多的内容。在这样的需求下，希望父元素作为容器，其宽度可以又横向排列资源的总宽度<strong>动态撑开</strong>，超过祖父元素的宽度；在不超过祖父元素时，自动继承100%的宽度。</p>
 <p>DOM结构如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;grantparent&quot;&gt;</div><div class="line">    &lt;div class=&quot;parent&quot;&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
-<p>###一般处理方法</p>
-<ul>
+<h3 id="一般处理方法"><a href="#一般处理方法" class="headerlink" title="一般处理方法"></a>一般处理方法</h3><ul>
 <li>将子元素设为<code>float</code>或者<code>inline-block</code>，然后再通过js计算子元素的个数和其宽度，从而设置父元素的宽度</li>
 <li>不利因素<ul>
 <li>增加DOM操作</li>
@@ -356,8 +355,7 @@
 </ul>
 </li>
 </ul>
-<p>###纯CSS处理方法</p>
-<ul>
+<h3 id="纯CSS处理方法"><a href="#纯CSS处理方法" class="headerlink" title="纯CSS处理方法"></a>纯CSS处理方法</h3><ul>
 <li><p>设置父元素的属性</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">white-space: nowrap;</div><div class="line">display: inline-block;</div></pre></td></tr></table></figure>
 </li>
