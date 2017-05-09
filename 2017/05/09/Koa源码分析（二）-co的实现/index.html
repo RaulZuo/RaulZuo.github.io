@@ -90,17 +90,17 @@
 
 
 
-<meta name="description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现">
+<meta name="description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现  co大名鼎鼎的co是什么？它是TJ大神基于ES6的一些新特性开发的异步流程控制库，基于它所开发的koa被视为未来主流的web框架。">
 <meta name="keywords" content="node.js,koa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Koa源码分析（二） -- co的实现">
 <meta property="og:url" content="http://yoursite.com/2017/05/09/Koa源码分析（二）-co的实现/index.html">
 <meta property="og:site_name" content="RaulZuo&#39;s Blog">
-<meta property="og:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现">
-<meta property="og:updated_time" content="2017-05-09T10:37:09.000Z">
+<meta property="og:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现  co大名鼎鼎的co是什么？它是TJ大神基于ES6的一些新特性开发的异步流程控制库，基于它所开发的koa被视为未来主流的web框架。">
+<meta property="og:updated_time" content="2017-05-09T10:41:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Koa源码分析（二） -- co的实现">
-<meta name="twitter:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现">
+<meta name="twitter:description" content="Abstract本系列是关于Koa框架的文章，目前关注版本是Koa v1。主要分为以下几个方面：  Koa源码分析（一） – generator Koa源码分析（二） – co的实现 Koa源码分析（三） – middleware机制的实现  co大名鼎鼎的co是什么？它是TJ大神基于ES6的一些新特性开发的异步流程控制库，基于它所开发的koa被视为未来主流的web框架。">
 
 
 
@@ -345,8 +345,8 @@
 <li><a href="/2017/05/09/Koa源码分析（二）-co的实现/">Koa源码分析（二） – co的实现</a></li>
 <li><a href="/2017/05/09/Koa源码分析（三）-middleware机制的实现/">Koa源码分析（三） – middleware机制的实现</a></li>
 </ol>
-<a id="more"></a><!--more-->
 <h2 id="co"><a href="#co" class="headerlink" title="co"></a>co</h2><p>大名鼎鼎的co是什么？它是<a href="https://github.com/tj" target="_blank" rel="external">TJ大神</a>基于ES6的一些新特性开发的异步流程控制库，基于它所开发的<a href="https://github.com/koajs/koa" target="_blank" rel="external">koa</a>被视为未来主流的web框架。</p>
+<a id="more"></a><!--more-->
 <p>koa基于co实现，而co又是使用了ES6的generator和promise特性。如果还不理解，可以查看阮一峰老师的<a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="external">《ECMAScript 6 入门 — Generator》</a>和<a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="external">《ECMAScript 6 入门 — Promise》</a>。目前co升级为4.X版本事，代码进行了一次颇有规模的重构，我们主要关注co（4.X）的实现思路和源码分析。</p>
 <h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">co(function* ()&#123;</div><div class="line">    var a = yield Promise.resolve(&apos;one&apos;);</div><div class="line">    console.log(a);</div><div class="line">    var b = yield Promise.reslove(&apos;two&apos;);</div><div class="line">    console.log(b);</div><div class="line">    return &apos;three&apos;;</div><div class="line">&#125;).then((value) =&gt; console.log(value));</div><div class="line">// one</div><div class="line">// two</div><div class="line">// three</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">co(function* ()&#123;</div><div class="line">    var res = yield [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];</div><div class="line">    return res;</div><div class="line">&#125;).then((value) =&gt; console.log(res));</div><div class="line">// [1, 2, 3]</div></pre></td></tr></table></figure>
