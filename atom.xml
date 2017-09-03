@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>RaulZuo&#39;s Blog</title>
+  <subtitle>Stay Hungry, Stay Foolish</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://raulzuo.github.io/"/>
+  <updated>2017-05-09T15:10:51.000Z</updated>
+  <id>https://raulzuo.github.io/</id>
+  
+  <author>
+    <name>RaulZuo</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vuex 2.0源码分析</title>
+    <link href="https://raulzuo.github.io/2017/05/09/Vuex-2-0%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    <id>https://raulzuo.github.io/2017/05/09/Vuex-2-0源码分析/</id>
+    <published>2017-05-09T15:02:07.000Z</published>
+    <updated>2017-05-09T15:10:51.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="源码" scheme="https://raulzuo.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="Vue" scheme="https://raulzuo.github.io/tags/Vue/"/>
+    
+      <category term="Vuex" scheme="https://raulzuo.github.io/tags/Vuex/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS布局技巧 -- 纯CSS让子元素的宽度总和决定其父元素的宽度</title>
+    <link href="https://raulzuo.github.io/2017/05/09/CSS%E5%B8%83%E5%B1%80%E6%8A%80%E5%B7%A7-%E7%BA%AFCSS%E8%AE%A9%E5%AD%90%E5%85%83%E7%B4%A0%E7%9A%84%E5%AE%BD%E5%BA%A6%E6%80%BB%E5%92%8C%E5%86%B3%E5%AE%9A%E5%85%B6%E7%88%B6%E5%85%83%E7%B4%A0%E7%9A%84%E5%AE%BD%E5%BA%A6/"/>
+    <id>https://raulzuo.github.io/2017/05/09/CSS布局技巧-纯CSS让子元素的宽度总和决定其父元素的宽度/</id>
+    <published>2017-05-09T11:03:19.000Z</published>
+    <updated>2017-05-09T11:06:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在移动端屏幕宽度有限的前提下，使用横向滚动的方式展示更多的内容。在这样的需求下，希望父元素作为容器，其宽度可以又横向排列资源的总宽度<strong>动态撑开</strong>，超过祖父元素的宽度；在不超过祖父元素时，自动继承100%的宽度。</p>
+<p>DOM结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;grantparent&quot;&gt;</div><div class="line">    &lt;div class=&quot;parent&quot;&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<h3 id="一般处理方法"><a href="#一般处理方法" class="headerlink" title="一般处理方法"></a>一般处理方法</h3><ul>
+<li>将子元素设为<code>float</code>或者<code>inline-block</code>，然后再通过js计算子元素的个数和其宽度，从而设置父元素的宽度</li>
+<li>不利因素<ul>
+<li>增加DOM操作</li>
+<li>js重新设定属性增加渲染重绘次数</li>
+<li>float在渲染时计算量比较大</li>
+</ul>
+</li>
+</ul>
+<h3 id="纯CSS处理方法"><a href="#纯CSS处理方法" class="headerlink" title="纯CSS处理方法"></a>纯CSS处理方法</h3><ul>
+<li><p>设置父元素的属性</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">white-space: nowrap;</div><div class="line">display: inline-block;</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置子元素的属性</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">display: inline-block;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;使用场景&quot;&gt;&lt;a href=&quot;#使用场景&quot; class=&quot;headerlink&quot; title=&quot;使用场景&quot;&gt;&lt;/a&gt;使用场景&lt;/h3&gt;&lt;p&gt;在移动端屏幕宽度有限的前提下，使用横向滚动的方式展示更多的内容。在这样的需求下，希望父元素作为容器，其宽度可以又横向排列资源
+    
+    </summary>
+    
+      <category term="总结" scheme="https://raulzuo.github.io/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="CSS" scheme="https://raulzuo.github.io/tags/CSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS布局技巧 -- 内凹圆角</title>
+    <link href="https://raulzuo.github.io/2017/05/09/CSS%E5%B8%83%E5%B1%80%E6%8A%80%E5%B7%A7-%E5%86%85%E5%87%B9%E5%9C%86%E8%A7%92/"/>
+    <id>https://raulzuo.github.io/2017/05/09/CSS布局技巧-内凹圆角/</id>
+    <published>2017-05-09T10:55:23.000Z</published>
+    <updated>2017-05-09T11:06:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>圆角，相信每一个了解CSS属性的都知道，通过border-radius实现圆角（外凸圆角），但是如果需要实现<strong>内凹圆角</strong>怎么办呢？比如四角内凹的元素，比如如下所示这样的内凹圆角</p>
+<p><img src="http://images2015.cnblogs.com/blog/936737/201612/936737-20161204143241099-912365423.png" alt="内凹圆角"></p>
+<p>对于这种问题，很多人的反应都是采用CSS的伪类或者子元素的<strong>绝对定位</strong>来覆盖，但是这样做的后果就是被覆盖部分是不透明的。在不同样色的背景下，会出现非常突兀的覆盖元素，这样一来，视觉上将会非常难看，自适应行不强。</p>
+<a id="more"></a><!--more-->
+<p>如果需要实现透明的效果，很多人又会说，<strong>切图</strong>！对，切图作为background-image是一个很好的解决方法。如果只能使用CSS属性来实现，是不是就懵逼了。。。</p>
+<p><strong>下边就来介绍一种使用纯CSS实现这种背景透明的内凹圆角效果</strong></p>
+<p>首先先介绍两个CSS3的属性</p>
+<ul>
+<li><p>线性渐变 <strong>linear-gradient()</strong></p>
+<p>  从该属性名中可以看出，这是一个生成颜色渐变图片的CSS方法。根据渐变基准方向（Gradient line）和颜色点，其中变化颜色点可以有多个。</p>
+<p>  示例：</p>
+<pre><code>// 两种颜色渐变
+background: linear-gradient(90deg, #F6327C, #DF3DF0);
+
+// 两种以上颜色渐变，三个颜色点，在50%处有颜色#FF0，剩余的两个分别是起始点和结束点
+background: linear-gradient(90deg, #F6327C, #FF0 50%, #DF3DF0);
+</code></pre></li>
+</ul>
+<blockquote>
+<p>渐变基准方向若使用 to left/to right/to top/to bottom 这样属性时，注意-webkit-等内核兼容性方面的语法的变化，细节可以查看<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient" target="_blank" rel="external">文档</a></p>
+</blockquote>
+<ul>
+<li><p>径向渐变 <strong>radial-gradient()</strong></p>
+<p>  顾名思义，从文字可以明白所谓的径向渐变就是以某点为圆心，固定直径内颜色渐变。它的属性包含了起始位置、方向、颜色渐变梯度，径向梯度允许变化的形状和大小。详细内容可以查看<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient" target="_blank" rel="external">文档</a></p>
+<p>  其语法为：</p>
+<pre><code>radial-gradient([[ circle || &lt;length&gt;] [at &lt;position&gt; ]?, | [ ellipse || [ &lt;length&gt; | &lt;percentage&gt; ]{2} [ at &lt;position&gt; ]?, | [ [ circle | ellipse] || &lt;extent-keyword&gt; ] [at &lt;position&gt; ]?, | at &lt;position&gt; ,]? &lt;color-stop&gt; [, &lt;color-stop&gt;] +)
+where &lt;extent-keyword&gt; = closest-corner | closest-side | farthest-corner | farthest-side and &lt;color-stop&gt;     = &lt;color&gt; [ &lt;percentage&gt; | &lt;length&gt; ]? 
+</code></pre><p>  示例：</p>
+<pre><code>// 椭圆渐变
+background-image: radial-gradient(ellipse farthest-corner at 45px 45px , #00FFFF 0%, rgba(0, 0, 255, 0) 50%, #0000FF 95%);
+
+// 固定半径的圆渐变
+background-image:  radial-gradient(16px at 60px 50% , #000000 0%, #000000 14px, rgba(0, 0, 0, 0.3) 18px, rgba(0, 0, 0, 0) 19px); 
+</code></pre></li>
+</ul>
+<h4 id="言归正传，回到内凹圆角"><a href="#言归正传，回到内凹圆角" class="headerlink" title="言归正传，回到内凹圆角"></a>言归正传，回到内凹圆角</h4><p>首先主元素左右两边留有固定大小的margin值，然后使用圆角元素覆盖对应的margin区域。若圆角元素不大于2个，可以使用<strong>::after</strong>和<strong>::before</strong>两个伪类元素。若大于4个，如四角内凹元素，则采用自元素的绝对定位方式。</p>
+<p>DOM元素结构（采用伪类）：</p>
+<pre><code>&lt;div class=&quot;main&quot;&gt;&lt;/div&gt;
+</code></pre><p>CSS结构分以下2个方面来进行设计：</p>
+<ol>
+<li><p>主体元素（背景颜色渐变）</p>
+<pre><code>.main {
+    position: relative;
+    width: 200px;
+    height: 40px;
+    margin: 0 5px;
+    background: -webkit-linear-gradient(left, #F6327C, #DF3DF0);
+    background: linear-gradient(to right, #F6327C, #DF3DF0);
+}
+</code></pre></li>
+<li><p>内凹圆角元素（使用伪类）</p>
+<pre><code>.main::before {
+    position: absolute;
+    content: &quot;&quot;;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 5px;
+    height: 40px;
+    border-radius: 2px 0 0 2px;
+    background: -webkit-radial-gradient(10px at left,transparent 50%,#F6327C 50%);
+    background: radial-gradient(10px at left,transparent 50%,#F6327C 50%);
+}
+.main::after {
+    position: absolute;
+    content: &quot;&quot;;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 5px;
+    height: 40px;
+    border-radius: 0 2px 2px 0;
+    background: -webkit-radial-gradient(10px at right,transparent 50%,#F6327C 50%);
+    background: radial-gradient(10px at right,transparent 50%,#F6327C 50%);
+}
+</code></pre></li>
+</ol>
+<p>根据以上代码就能够实现如图所示的带透明内凹圆角效果。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;圆角，相信每一个了解CSS属性的都知道，通过border-radius实现圆角（外凸圆角），但是如果需要实现&lt;strong&gt;内凹圆角&lt;/strong&gt;怎么办呢？比如四角内凹的元素，比如如下所示这样的内凹圆角&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://images2015.cnblogs.com/blog/936737/201612/936737-20161204143241099-912365423.png&quot; alt=&quot;内凹圆角&quot;&gt;&lt;/p&gt;
+&lt;p&gt;对于这种问题，很多人的反应都是采用CSS的伪类或者子元素的&lt;strong&gt;绝对定位&lt;/strong&gt;来覆盖，但是这样做的后果就是被覆盖部分是不透明的。在不同样色的背景下，会出现非常突兀的覆盖元素，这样一来，视觉上将会非常难看，自适应行不强。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="总结" scheme="https://raulzuo.github.io/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="CSS" scheme="https://raulzuo.github.io/tags/CSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue源码解析---数据的双向绑定</title>
+    <link href="https://raulzuo.github.io/2017/05/09/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A/"/>
+    <id>https://raulzuo.github.io/2017/05/09/Vue源码解析-数据的双向绑定/</id>
+    <published>2017-05-09T10:51:05.000Z</published>
+    <updated>2017-05-09T10:52:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>本文主要抽离Vue源码中数据双向绑定的核心代码，解析Vue是如何实现数据的双向绑定<br>核心思想是ES5的<strong>Object.defineProperty()</strong>和<strong>发布-订阅</strong>模式</p>
+</blockquote>
+<h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><ol>
+<li>改造Vue实例中的data，通过Object.defineProperty()将其所有属性设置为<strong>访问器属性</strong></li>
+<li>对每个属性添加<strong>Observer</strong>，并在observer中添加订阅者对象序列<strong>Dep</strong></li>
+<li>添加订阅者对象<strong>Watcher</strong>，每次初始化的时候添加到对应data属性中的<strong>Dep</strong>之中</li>
+</ol>
+<p>所有，我们从代码的角度将整体分为三个部分：<strong>监听数据变化</strong>、<strong>管理订阅者</strong>、<strong>订阅者</strong></p>
+<a id="more"></a><!--more-->
+<h3 id="监听数据变化"><a href="#监听数据变化" class="headerlink" title="监听数据变化"></a>监听数据变化</h3><p>使用ES5中的<strong>Object.defineProperty</strong>将data中的属性修改为<strong>访问者属性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">// Dep用于订阅者的存储和收集，将在下面实现</div><div class="line">import Dep from &apos;Dep&apos;</div><div class="line">// Observer类用于给data属性添加set&amp;get方法</div><div class="line">export default class Observer&#123;</div><div class="line">    constructor(value)&#123;</div><div class="line">        this.value = value</div><div class="line">        this.walk(value)</div><div class="line">    &#125;</div><div class="line">    walk(value)&#123;</div><div class="line">        Object.keys(value).forEach(key =&gt; this.convert(key, value[key]))</div><div class="line">    &#125;</div><div class="line">    convert(key, val)&#123;</div><div class="line">        defineReactive(this.value, key, val)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">export function defineReactive(obj, key, val)&#123;</div><div class="line">    // 用于存放某个属性的所有订阅者</div><div class="line">    var dep = new Dep()</div><div class="line">    // 给当前属性的值添加监听</div><div class="line">    var chlidOb = observe(val)</div><div class="line">    Object.defineProperty(obj, key, &#123;</div><div class="line">        enumerable: true,</div><div class="line">        configurable: true,</div><div class="line">        get: ()=&gt; &#123;</div><div class="line">            console.log(&apos;get value&apos;)</div><div class="line">            // 如果Dep类存在target属性，将其添加到dep实例的subs数组中</div><div class="line">            // target指向一个Watcher实例，每个Watcher都是一个订阅者</div><div class="line">            // Watcher实例在实例化过程中，会读取data中的某个属性，从而触发当前get方法</div><div class="line">            if(Dep.target)&#123;</div><div class="line">                dep.addSub(Dep.target)</div><div class="line">            &#125;</div><div class="line">            return val</div><div class="line">        &#125;,</div><div class="line">        set: (newVal) =&gt; &#123;</div><div class="line">            console.log(&apos;new value setted&apos;)</div><div class="line">            if(val === newVal) return</div><div class="line">            val = newVal</div><div class="line">            // 对新值进行监听</div><div class="line">            chlidOb = observe(newVal)</div><div class="line">            // 通知所有订阅者，数值被改变了</div><div class="line">            dep.notify()</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line">export function observe(value)&#123;</div><div class="line">    // 当值不存在，或者不是复杂数据类型时，不再需要继续深入监听</div><div class="line">    if(!value || typeof value !== &apos;object&apos;)&#123;</div><div class="line">        return</div><div class="line">    &#125;</div><div class="line">    return new Observer(value)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="管理订阅者"><a href="#管理订阅者" class="headerlink" title="管理订阅者"></a>管理订阅者</h3><p>对订阅者进行收集，存储和通知</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">export default class Dep&#123;</div><div class="line">    constructor()&#123;</div><div class="line">        this.subs = []</div><div class="line">    &#125;</div><div class="line">    addSub(sub)&#123;</div><div class="line">        // 在收集订阅者的时候，需要对subs中的订阅者进行去重，这边不详细解析</div><div class="line">        this.subs.push(sub)</div><div class="line">    &#125;</div><div class="line">    notify()&#123;</div><div class="line">        // 通知所有的订阅者(Watcher)，触发订阅者的相应逻辑处理</div><div class="line">        this.subs.forEach((sub) =&gt; sub.update())</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="订阅者"><a href="#订阅者" class="headerlink" title="订阅者"></a>订阅者</h3><p>每个watcher对象都是对data中每个属性的订阅，是多对一的关系，每个watcher只能对应一个data属性，而一个data属性可以对应多个watcher</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">import Dep from &apos;Dep&apos;</div><div class="line">export default class Watcher&#123;</div><div class="line">    constructor(vm, expOrFn, cb)&#123;</div><div class="line">        this.vm = vm // 被订阅的数据一定来自于当前Vue实例</div><div class="line">        this.cb = cb // 当数据更新时想要做的事情</div><div class="line">        this.expOrFn = expOrFn // 被订阅的数据</div><div class="line">        this.val = this.get() // 维护更新之前的数据</div><div class="line">    &#125;</div><div class="line">    // 对外暴露的接口，用于在订阅的数据被更新时，由订阅者管理员(Dep)调用</div><div class="line">    update()&#123;</div><div class="line">        this.run()</div><div class="line">    &#125;</div><div class="line">    run()&#123;</div><div class="line">        const val = this.get()</div><div class="line">        if(val !== this.val)&#123;</div><div class="line">            this.val = val;</div><div class="line">            this.cb.call(this.vm)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    get()&#123;</div><div class="line">        // 当前订阅者(Watcher)读取被订阅数据的最新更新后的值时，通知订阅者管理员收集当前订阅者</div><div class="line">        Dep.target = this</div><div class="line">        const val = this.vm._data[this.expOrFn]</div><div class="line">        // 置空，用于下一个Watcher使用</div><div class="line">        Dep.target = null</div><div class="line">        return val;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>下边我们创建一个简易的Vue来实际运行下对数据的监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">import Observer, &#123;observe&#125; from &apos;Observer&apos;</div><div class="line">import Watcher from &apos;Watcher&apos;</div><div class="line">export default class Vue&#123;</div><div class="line">    constructor(options = &#123;&#125;)&#123;</div><div class="line">        // 简化了$options的处理</div><div class="line">        this.$options = options</div><div class="line">        // 简化了对data的处理</div><div class="line">        let data = this._data = this.$options.data</div><div class="line">        // 将所有data最外层属性代理到Vue实例上</div><div class="line">        Object.keys(data).forEach(key =&gt; this._proxy(key))</div><div class="line">        // 监听数据</div><div class="line">        observe(data)</div><div class="line">    &#125;</div><div class="line">    // 对外暴露调用订阅者的接口，内部主要在指令中使用订阅者</div><div class="line">    $watch(expOrFn, cb)&#123;</div><div class="line">        new Watcher(this, expOrFn, cb)</div><div class="line">    &#125;</div><div class="line">    _proxy(key)&#123;</div><div class="line">        Object.defineProperty(this, key, &#123;</div><div class="line">            configurable: true,</div><div class="line">            enumerable: true,</div><div class="line">            get: () =&gt; this._data[key],</div><div class="line">            set: (val) =&gt; &#123;</div><div class="line">                this._data[key] = val</div><div class="line">            &#125; </div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">import Vue from &apos;./Vue&apos;;</div><div class="line">let demo = new Vue(&#123;</div><div class="line">    data: &#123;</div><div class="line">        &apos;a&apos;: &#123;</div><div class="line">            &apos;ab&apos;: &#123;</div><div class="line">                &apos;c&apos;: &apos;C&apos;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        &apos;b&apos;: [</div><div class="line">            &apos;bb&apos;: &apos;BB&apos;,</div><div class="line">            &apos;bbb&apos;: &apos;BBB&apos;</div><div class="line">        ],</div><div class="line">        &apos;c&apos;: &apos;C&apos;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">demo.$watch(&apos;c&apos;, () =&gt; console.log(&apos;c is changed&apos;));</div><div class="line">// get value</div><div class="line">demo.$watch(&apos;a.ab&apos;, () =&gt; console.log(&apos;a.ab is changed&apos;));</div><div class="line">demo.$watch(&apos;b&apos;, () =&gt; console.log(&apos;b is changed&apos;));</div><div class="line">// get value</div><div class="line">demo.c = &apos;CCC&apos;;</div><div class="line">// new value setted</div><div class="line">// get value</div><div class="line">// c is changed</div><div class="line">demo.a.ab = &apos;AB&apos;;</div><div class="line">// get value</div><div class="line">// new value setted</div><div class="line">demo.b.push(&#123;&apos;bbbb&apos;: &apos;BBBB&apos;&#125;);</div><div class="line">// get value</div></pre></td></tr></table></figure>
+<p>根据实例的输出结果，我们很奇怪的发现，只有对简单的数据监听才能实现数据双向绑定。</p>
+<ol>
+<li><code>demo.$watch(&#39;a.ab&#39;, () =&gt; console.log(&#39;a.ab is changed&#39;))</code>注册订阅者并没有调用<code>getter</code></li>
+<li><code>demo.a.ab = &#39;AB&#39;</code>有监听到数据的变化，并没有调用对应的callback</li>
+<li><code>demo.b.push({&#39;bbbb&#39;: &#39;BBBB&#39;})</code>对数组进行操作，并没有调用对应的callback</li>
+</ol>
+<p>这是为什么呢？因为我们对数据的监听的实现，目前仅限于简单属性，对于某个属性内部有更多复杂属性或者数组时，就无能为力了。</p>
+<p>为了实现进一步对数组和复杂对象的监听，请戳<a href="">Vue源码解析—数组的双向绑定</a>和<a href="">Vue源码解析—复杂队形的双向绑定</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本文主要抽离Vue源码中数据双向绑定的核心代码，解析Vue是如何实现数据的双向绑定&lt;br&gt;核心思想是ES5的&lt;strong&gt;Object.defineProperty()&lt;/strong&gt;和&lt;strong&gt;发布-订阅&lt;/strong&gt;模式&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;整体结构&quot;&gt;&lt;a href=&quot;#整体结构&quot; class=&quot;headerlink&quot; title=&quot;整体结构&quot;&gt;&lt;/a&gt;整体结构&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;改造Vue实例中的data，通过Object.defineProperty()将其所有属性设置为&lt;strong&gt;访问器属性&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;对每个属性添加&lt;strong&gt;Observer&lt;/strong&gt;，并在observer中添加订阅者对象序列&lt;strong&gt;Dep&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;添加订阅者对象&lt;strong&gt;Watcher&lt;/strong&gt;，每次初始化的时候添加到对应data属性中的&lt;strong&gt;Dep&lt;/strong&gt;之中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;所有，我们从代码的角度将整体分为三个部分：&lt;strong&gt;监听数据变化&lt;/strong&gt;、&lt;strong&gt;管理订阅者&lt;/strong&gt;、&lt;strong&gt;订阅者&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="源码" scheme="https://raulzuo.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="Vue" scheme="https://raulzuo.github.io/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Koa源码分析（三） -- middleware机制的实现</title>
+    <link href="https://raulzuo.github.io/2017/05/09/Koa%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89-middleware%E6%9C%BA%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://raulzuo.github.io/2017/05/09/Koa源码分析（三）-middleware机制的实现/</id>
+    <published>2017-05-09T10:31:16.000Z</published>
+    <updated>2017-05-09T10:38:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
+<ol>
+<li><a href="/2017/05/09/Koa源码分析（一）-generator/">Koa源码分析（一） – generator</a></li>
+<li><a href="/2017/05/09/Koa源码分析（二）-co的实现/">Koa源码分析（二） – co的实现</a></li>
+<li><a href="/2017/05/09/Koa源码分析（三）-middleware机制的实现/">Koa源码分析（三） – middleware机制的实现</a></li>
+</ol>
+<h2 id="Koa概括"><a href="#Koa概括" class="headerlink" title="Koa概括"></a>Koa概括</h2><p>Koa是基于generator与co之上的新一代中间件框架，它的优势主要集中在以下几个方面</p>
+<ol>
+<li>中间件机制</li>
+<li>封装了request/response, context对象</li>
+<li>使用yield，方便异步编程进行流程控制</li>
+<li>在忽略同步或者异步的情况下，使用try catch可以获取程序运行中的异常（错误处理是服务端程序的核心）</li>
+</ol>
+<a id="more"></a><!--more-->
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">var Koa = require(&apos;koa&apos;);</div><div class="line">var app = new Koa();</div><div class="line">//添加中间件1</div><div class="line">app.use(function *(next)&#123;</div><div class="line">    var start = new Date;</div><div class="line">    console.log(&quot;start=======1111&quot;);</div><div class="line">    yield next;</div><div class="line">    console.log(&quot;end  =======1111&quot;);</div><div class="line">    var ms = new Date - start;</div><div class="line">    console.log(&apos;%s %s - %s&apos;, this.method, this.url, ms);</div><div class="line">&#125;);</div><div class="line">//添加中间件2</div><div class="line">app.use(function *()&#123;</div><div class="line">    console.log(&quot;start=======2222&quot;);</div><div class="line">    this.body = &apos;Hello World&apos;;</div><div class="line">    console.log(&quot;end  =======2222&quot;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000);</div><div class="line">/*</div><div class="line">start=======1111</div><div class="line">start=======2222</div><div class="line">end  =======2222</div><div class="line">end  =======1111</div><div class="line">GET / - 10</div><div class="line">start=======1111</div><div class="line">start=======2222</div><div class="line">end  =======2222</div><div class="line">end  =======1111</div><div class="line">GET /favicon.ico - 5</div><div class="line">*/</div></pre></td></tr></table></figure>
+<p>从上述代码中，我们添加了两个middleware，其中第一个middleware中有一个输入参数<code>next</code>，并通过<code>yield</code>进行调用。通过分析输出的log信息，不难发现，先运行middelware1中的<code>yield</code>之前的代码，然后进入到middleware2中运行，待middleware2运行结束后又回到middleware1中，并运行<code>yield</code>之后的代码。</p>
+<p>由于<code>app.use</code>输入的是generator函数，如果熟悉generator函数的同学，或许会说，这是将middleware2作为middleware1中的next参数，依次调用多个generator函数。对，没错，实际运行就是这样的，但是koa框架是如何组织代码实现这样方面的调用，将<strong>地狱式调用</strong>的异步编程编程这样清晰的结构？请看下文的源码分析</p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h4 id="Application初始化"><a href="#Application初始化" class="headerlink" title="Application初始化"></a>Application初始化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function Application() &#123;</div><div class="line">    if (!(this instanceof Application)) return new Application;</div><div class="line">    this.env = process.env.NODE_ENV || &apos;development&apos;;</div><div class="line">    this.subdomainOffset = 2;</div><div class="line">    // 用于存放中间件，即generator对象</div><div class="line">    this.middleware = [];</div><div class="line">    this.proxy = false;</div><div class="line">    // 获得封装的上下文对象</div><div class="line">    this.context = Object.create(context);</div><div class="line">    // 获取封装的请求对象</div><div class="line">    this.request = Object.create(request);</div><div class="line">    // 获取封装的响应对象</div><div class="line">    this.response = Object.create(response);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">listen() &#123;</div><div class="line">    debug(&apos;listen&apos;);</div><div class="line">    // 调用node原生中的创建服务</div><div class="line">    // 其中callback()是服务创建的核心，具体见下面分析</div><div class="line">    const server = http.createServer(this.callback());</div><div class="line">    // 开启服务的监听</div><div class="line">    return server.listen.apply(server, arguments);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="添加中间件"><a href="#添加中间件" class="headerlink" title="添加中间件"></a>添加中间件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">app.use = function(fn)&#123;</div><div class="line">    if (!this.experimental) &#123;</div><div class="line">        // es7 async functions are not allowed,</div><div class="line">        // so we have to make sure that `fn` is a generator function</div><div class="line">        assert(fn &amp;&amp; &apos;GeneratorFunction&apos; == fn.constructor.name, &apos;app.use() requires a generator function&apos;);</div><div class="line">    &#125;</div><div class="line">    debug(&apos;use %s&apos;, fn._name || fn.name || &apos;-&apos;);</div><div class="line">    // 将输入的fn依次push到middleware数组中</div><div class="line">    this.middleware.push(fn);</div><div class="line">    // 返回this，以便链式调用</div><div class="line">    return this;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="node-native-创建服务"><a href="#node-native-创建服务" class="headerlink" title="node native 创建服务"></a>node native 创建服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">app.callback = function()&#123;</div><div class="line">    if (this.experimental) &#123;</div><div class="line">        console.error(&apos;Experimental ES7 Async Function support is deprecated. Please look into Koa v2 as the middleware signature has changed.&apos;)</div><div class="line">    &#125;</div><div class="line">    // 将中间件按照加入的顺序，实现yield的链式调用，即组织异步调用结构，详细见下面的compose</div><div class="line">    // co.wrap方法将generator函数转化为Promise</div><div class="line">    var fn = this.experimental ? compose_es7(this.middleware) : co.wrap(compose(this.middleware));</div><div class="line">    var self = this;</div><div class="line"></div><div class="line">    if (!this.listeners(&apos;error&apos;).length) this.on(&apos;error&apos;, this.onerror);</div><div class="line"></div><div class="line">    // 返回node native的请求处理函数</div><div class="line">    return function handleRequest(req, res)&#123;</div><div class="line">        res.statusCode = 404;</div><div class="line">        var ctx = self.createContext(req, res);</div><div class="line">        onFinished(res, ctx.onerror);</div><div class="line">        fn.call(ctx).then(function handleResponse() &#123;</div><div class="line">            respond.call(ctx);</div><div class="line">        &#125;).catch(ctx.onerror);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="中间件异步构建"><a href="#中间件异步构建" class="headerlink" title="中间件异步构建"></a>中间件异步构建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// 返回一个启动函数</div><div class="line">function compose(middleware)&#123;</div><div class="line">    return function *(next)&#123;</div><div class="line">        if (!next) next = noop();</div><div class="line">        var i = middleware.length;</div><div class="line">        // 对中间件队列从后遍历，逐个获取对应的generator对象</div><div class="line">        while (i--) &#123;</div><div class="line">            // 将后面的generator对象传递给前面中间件的generatorFunction</div><div class="line">            next = middleware[i].call(this, next);</div><div class="line">        &#125;</div><div class="line">        // 返回一个yield，next指向第一个中间件的generator</div><div class="line">        return yield *next;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">function *noop()&#123;&#125;</div></pre></td></tr></table></figure>
+<p>这样，我们就从返回的启动函数（generator函数）的yield处指向第一个中间件，然后从之前<code>while</code>循环构成的从前往后的调用链，依次调用下一个中间件，直至最后一个中间件然后再返回。</p>
+<p>这边我们再次回到<code>callback()</code>这个启动函数处，调用<code>co.wrap()</code>实现对generator函数的逐步调用。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Abstract&quot;&gt;&lt;a href=&quot;#Abstract&quot; class=&quot;headerlink&quot; title=&quot;Abstract&quot;&gt;&lt;/a&gt;Abstract&lt;/h2&gt;&lt;p&gt;本系列是关于Koa框架的文章，目前关注版本是&lt;strong&gt;Koa v1&lt;/strong&gt;。主要分为以下几个方面：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（一）-generator/&quot;&gt;Koa源码分析（一） – generator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（二）-co的实现/&quot;&gt;Koa源码分析（二） – co的实现&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（三）-middleware机制的实现/&quot;&gt;Koa源码分析（三） – middleware机制的实现&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;Koa概括&quot;&gt;&lt;a href=&quot;#Koa概括&quot; class=&quot;headerlink&quot; title=&quot;Koa概括&quot;&gt;&lt;/a&gt;Koa概括&lt;/h2&gt;&lt;p&gt;Koa是基于generator与co之上的新一代中间件框架，它的优势主要集中在以下几个方面&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;中间件机制&lt;/li&gt;
+&lt;li&gt;封装了request/response, context对象&lt;/li&gt;
+&lt;li&gt;使用yield，方便异步编程进行流程控制&lt;/li&gt;
+&lt;li&gt;在忽略同步或者异步的情况下，使用try catch可以获取程序运行中的异常（错误处理是服务端程序的核心）&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="源码" scheme="https://raulzuo.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="node.js" scheme="https://raulzuo.github.io/tags/node-js/"/>
+    
+      <category term="koa" scheme="https://raulzuo.github.io/tags/koa/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Koa源码分析（二） -- co的实现</title>
+    <link href="https://raulzuo.github.io/2017/05/09/Koa%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89-co%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://raulzuo.github.io/2017/05/09/Koa源码分析（二）-co的实现/</id>
+    <published>2017-05-09T10:30:56.000Z</published>
+    <updated>2017-05-09T10:41:27.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
+<ol>
+<li><a href="/2017/05/09/Koa源码分析（一）-generator/">Koa源码分析（一） – generator</a></li>
+<li><a href="/2017/05/09/Koa源码分析（二）-co的实现/">Koa源码分析（二） – co的实现</a></li>
+<li><a href="/2017/05/09/Koa源码分析（三）-middleware机制的实现/">Koa源码分析（三） – middleware机制的实现</a></li>
+</ol>
+<h2 id="co"><a href="#co" class="headerlink" title="co"></a>co</h2><p>大名鼎鼎的co是什么？它是<a href="https://github.com/tj" target="_blank" rel="external">TJ大神</a>基于ES6的一些新特性开发的异步流程控制库，基于它所开发的<a href="https://github.com/koajs/koa" target="_blank" rel="external">koa</a>被视为未来主流的web框架。</p>
+<a id="more"></a><!--more-->
+<p>koa基于co实现，而co又是使用了ES6的generator和promise特性。如果还不理解，可以查看阮一峰老师的<a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="external">《ECMAScript 6 入门 — Generator》</a>和<a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="external">《ECMAScript 6 入门 — Promise》</a>。目前co升级为4.X版本事，代码进行了一次颇有规模的重构，我们主要关注co（4.X）的实现思路和源码分析。</p>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">co(function* ()&#123;</div><div class="line">    var a = yield Promise.resolve(&apos;one&apos;);</div><div class="line">    console.log(a);</div><div class="line">    var b = yield Promise.reslove(&apos;two&apos;);</div><div class="line">    console.log(b);</div><div class="line">    return &apos;three&apos;;</div><div class="line">&#125;).then((value) =&gt; console.log(value));</div><div class="line">// one</div><div class="line">// two</div><div class="line">// three</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">co(function* ()&#123;</div><div class="line">    var res = yield [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];</div><div class="line">    return res;</div><div class="line">&#125;).then((value) =&gt; console.log(res));</div><div class="line">// [1, 2, 3]</div></pre></td></tr></table></figure>
+<p>根据co的功能，它作为异步流程控制的作用，自动调用generator对象的next()方法，实现generator函数的运行，并返回最终运行的结果。</p>
+<p>如果要涉及到co的实现细节，我们就会存在以下几个疑问：</p>
+<ol>
+<li>如何依次调用next()方法</li>
+<li>如何将<strong>yield</strong>后边运算异步结果返回给对应的变量</li>
+<li>co自身如何返回generator函数最后的return值</li>
+</ol>
+<p>接下来我们正对以上问题，分析TJ大神的源码</p>
+<h2 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h2><h4 id="co源码的流程控制"><a href="#co源码的流程控制" class="headerlink" title="co源码的流程控制"></a>co源码的流程控制</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">function co(gen) &#123;</div><div class="line">    // 保持当前函数的上下文</div><div class="line">    var ctx = this;</div><div class="line">    // 截取co输入的参数，剔除arguments中的第一个参数，即gen对象，剩余参数作为gen的入参</div><div class="line">    var args = slice.call(arguments, 1);</div><div class="line">    </div><div class="line">    // 返回一个Promise对象，即最外围Promise对象</div><div class="line">    return new Promise(function(resolve, reject) &#123;</div><div class="line">        // 判断传入的gen是否为函数，若是则执行，将结果赋值给gen对象</div><div class="line">        // 若不是，则不执行</div><div class="line">        if (typeof gen === &apos;function&apos;) gen = gen.apply(ctx, args);</div><div class="line">        // 根据generator函数执行结果是否存在next字段，判断gen是否为generator迭代器对象</div><div class="line">        // 若不是，则调用resolve返回最外围Promise对象的状态</div><div class="line">        if (!gen || typeof gen.next !== &apos;function&apos;) return resolve(gen);</div><div class="line">        </div><div class="line">        // 若是generator迭代器对象，开始控制gen.next()方法的调用</div><div class="line">        onFulfilled();</div><div class="line"></div><div class="line">        // 两个用途</div><div class="line">        // 一、generator函数的执行入口</div><div class="line">        // 二、当做所有内部Promise对象的resolve方法，处理异步结果，并继续调用下一个Promise</div><div class="line">        function onFulfilled(res) &#123;</div><div class="line">            var ret;</div><div class="line">            try &#123;</div><div class="line">                // gen运行至yield处被挂起，开始处理异步操作，并将异步操作的结果返回给ret.value</div><div class="line">                ret = gen.next(res);</div><div class="line">            &#125; catch (e) &#123;</div><div class="line">                // 若报错，直接调用reject返回外围Promise对象的状态，并传出错误对象</div><div class="line">                return reject(e);</div><div class="line">            &#125;</div><div class="line">            // 将gen.next的执行结果传入next函数，实现依次串行调用gen.next方法</div><div class="line">            next(ret);</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 当做所有内部Promise对象的reject方法，处理异步结果，并继续调用下一个Promise</div><div class="line">        function onRejected(err) &#123;</div><div class="line">            var ret;</div><div class="line">            try &#123;</div><div class="line">                ret = gen.throw(err);</div><div class="line">            &#125; catch (e) &#123;</div><div class="line">                // 若报错，直接调用reject返回外围Promise对象的状态，并传出错误对象</div><div class="line">                return reject(e);</div><div class="line">            &#125;</div><div class="line">            // 将gen.throw的执行结果传入next函数，实现依次串行调用gen.next方法</div><div class="line">            next(ret);</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        // 实现串行调用gen.next的核心</div><div class="line">        function next(ret) &#123;</div><div class="line">            // 判断内部Promise是否全部执行完毕</div><div class="line">            // 若执行完毕，直接调用resolve改变外围Promise的状态，并返回最终的return值[问题3]</div><div class="line">            if (ret.done) return resolve(ret.value);</div><div class="line">            // 若未执行完毕，调用toPromise方法将上一个Promise返回的值转化为Promise对象</div><div class="line">            // 具体参见toPromise方法</div><div class="line">            var value = toPromise.call(ctx, ret.value);</div><div class="line">            // 根据value转化后的Promise对象的两个状态，执行下一个next方法</div><div class="line">            if (value &amp;&amp; isPromise(value)) return value.then(onFulfilled, onRejected);</div><div class="line">            // 抛出不符合转化规则的类型的值</div><div class="line">            return onRejected(new TypeError(&apos;You may only yield a function, promise, generator, array, or object, &apos;</div><div class="line">                + &apos;but the following object was passed: &quot;&apos; + String(ret.value) + &apos;&quot;&apos;));</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>源码分析完了，我们可以把co串行调用generator函数中yield的过程总结如下：</p>
+<ol>
+<li>进入外围Promise</li>
+<li>通过入口onFilfilled()方法，将generator函数运行至第一个yield处，执行该yield后边的异步操作，并将结果传入next方法</li>
+<li>如果next中传入结果的done为true，则返回外围Promise的resolve</li>
+<li>如果next中传入结果的done为true，则返回value（即yield后边的对象）是否可以转化为内部Promise对象。如无法转化，则抛出错误，返回外围Promise的reject</li>
+<li>若能转化为Promise对象，将所有内部Promise并行执行，通过then(onFilfilled, onRejected)开始执行</li>
+<li>在onFilfilled()或者onRejected()内部调用再次调用next()方法，实现串行执行yield，并肩yield后边的对象传递给next()，依次重复。</li>
+<li>所有yield执行返回，将最后的return值返回给外围Promise的resovle方法，结束co对generator函数的调用</li>
+</ol>
+<h4 id="yield后面对象转化为Promise"><a href="#yield后面对象转化为Promise" class="headerlink" title="yield后面对象转化为Promise"></a>yield后面对象转化为Promise</h4><p>能够在co中实现generator函数的逐步调用next()方法，转化为内部Promise将至关重要，而源码是如何转化的呢？哪些对象又是能够转化的呢？接下来，我们看下源码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">function toPromise(obj) &#123;</div><div class="line">    // 确保obj有意义</div><div class="line">    if (!obj) return obj;</div><div class="line">    // 若是Promise对象，则直接返回</div><div class="line">    if (isPromise(obj)) return obj;</div><div class="line">    // 若是generator函数或者generator对象，则传入一个新的co，并返回新co的外围Promise</div><div class="line">    // 作为当前co的内部Promise，这样实现多层级调用</div><div class="line">    if (isGeneratorFunction(obj) || isGenerator(obj)) return co.call(this, obj);</div><div class="line">    // 若是函数，则返回thunk规范的函数</div><div class="line">    if (&apos;function&apos; == typeof obj) return thunkToPromise.call(this, obj);</div><div class="line">    // 若是数组，把数组中每个元素转化为内部Promise，返回Promise.all并行运算</div><div class="line">    if (Array.isArray(obj)) return arrayToPromise.call(this, obj);</div><div class="line">    // 若是对象，遍历对象中的每个key对应的value，转化成Promise.all并行运算</div><div class="line">    if (isObject(obj)) return objectToPromise.call(this, obj);</div><div class="line">    return obj;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function thunkToPromise(fn) &#123;</div><div class="line">  var ctx = this;</div><div class="line">  return new Promise(function (resolve, reject) &#123;</div><div class="line">    fn.call(ctx, function (err, res) &#123;</div><div class="line">      if (err) return reject(err);</div><div class="line">      if (arguments.length &gt; 2) res = slice.call(arguments, 1);</div><div class="line">      resolve(res);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">function arrayToPromise(obj) &#123;</div><div class="line">    // Array.map并行计算返回每一个元素的Promise</div><div class="line">    return Promise.all(obj.map(toPromise, this));</div><div class="line">&#125;</div><div class="line"></div><div class="line">function objectToPromise(obj)&#123;</div><div class="line">  var results = new obj.constructor();</div><div class="line">  var keys = Object.keys(obj);</div><div class="line">  var promises = [];</div><div class="line">  for (var i = 0; i &lt; keys.length; i++) &#123;</div><div class="line">    var key = keys[i];</div><div class="line">    var promise = toPromise.call(this, obj[key]);</div><div class="line">    if (promise &amp;&amp; isPromise(promise)) defer(promise, key);</div><div class="line">    else results[key] = obj[key];</div><div class="line">  &#125;</div><div class="line">  // Promise链式调用，后续的then能偶获取此处的results</div><div class="line">  return Promise.all(promises).then(function () &#123;</div><div class="line">    return results;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  function defer(promise, key) &#123;</div><div class="line">    // key对应的元素成功转化为Promise对象后，构造这些Promise的resovle方法</div><div class="line">    // 以便在results中获取每个Promise对象成功执行后结果</div><div class="line">    results[key] = undefined;</div><div class="line">    promises.push(promise.then(function (res) &#123;</div><div class="line">      results[key] = res;</div><div class="line">    &#125;));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结合上述分析，我们可以得到，yield后面只能是<strong>函数、Promise对象、Generator函数、Generator迭代器对象、数组（元素仅限之前的4类）和Object(对应value仅限定之前的4类)</strong></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Abstract&quot;&gt;&lt;a href=&quot;#Abstract&quot; class=&quot;headerlink&quot; title=&quot;Abstract&quot;&gt;&lt;/a&gt;Abstract&lt;/h2&gt;&lt;p&gt;本系列是关于Koa框架的文章，目前关注版本是&lt;strong&gt;Koa v1&lt;/strong&gt;。主要分为以下几个方面：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（一）-generator/&quot;&gt;Koa源码分析（一） – generator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（二）-co的实现/&quot;&gt;Koa源码分析（二） – co的实现&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（三）-middleware机制的实现/&quot;&gt;Koa源码分析（三） – middleware机制的实现&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;co&quot;&gt;&lt;a href=&quot;#co&quot; class=&quot;headerlink&quot; title=&quot;co&quot;&gt;&lt;/a&gt;co&lt;/h2&gt;&lt;p&gt;大名鼎鼎的co是什么？它是&lt;a href=&quot;https://github.com/tj&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;TJ大神&lt;/a&gt;基于ES6的一些新特性开发的异步流程控制库，基于它所开发的&lt;a href=&quot;https://github.com/koajs/koa&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;koa&lt;/a&gt;被视为未来主流的web框架。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="源码" scheme="https://raulzuo.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="node.js" scheme="https://raulzuo.github.io/tags/node-js/"/>
+    
+      <category term="koa" scheme="https://raulzuo.github.io/tags/koa/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Koa源码分析（一） -- generator</title>
+    <link href="https://raulzuo.github.io/2017/05/09/Koa%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89-generator/"/>
+    <id>https://raulzuo.github.io/2017/05/09/Koa源码分析（一）-generator/</id>
+    <published>2017-05-09T10:19:41.000Z</published>
+    <updated>2017-05-09T10:38:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>本系列是关于Koa框架的文章，目前关注版本是<strong>Koa v1</strong>。主要分为以下几个方面：</p>
+<ol>
+<li><a href="/2017/05/09/Koa源码分析（一）-generator/">Koa源码分析（一） – generator</a></li>
+<li><a href="/2017/05/09/Koa源码分析（二）-co的实现/">Koa源码分析（二） – co的实现</a></li>
+<li><a href="/2017/05/09/Koa源码分析（三）-middleware机制的实现/">Koa源码分析（三） – middleware机制的实现</a></li>
+</ol>
+<h2 id="Genetator函数"><a href="#Genetator函数" class="headerlink" title="Genetator函数"></a>Genetator函数</h2><p>Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。</p>
+<blockquote>
+<p>详细解析可见阮一峰老师的<a href="http://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="external">《ECMAScript 6 入门 — Generator》</a></p>
+</blockquote>
+<a id="more"></a><!--more-->
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><p>两大特征</p>
+<ol>
+<li><code>function</code> 关键字与函数名之间的 <code>*</code></li>
+<li>函数体内部使用 <code>yield</code> 语句</li>
+</ol>
+<p>我们定义一个generatorFunction示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function* firstGenerator() &#123;</div><div class="line">    var one = yield &apos;one&apos;;</div><div class="line">    console.log(one);</div><div class="line">    var two = yield &apos;two&apos;;</div><div class="line">    concole.log(two);</div><div class="line">    var third = yield &apos;third&apos;;</div><div class="line">    console.log(third);</div><div class="line">    return &apos;over&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>带有 <code>*</code> 的函数声明就代表 <code>firstGenerator</code> 函数是一个generator函数，函数里面的 yield 关键字可以理解为在当前位置设置断点，这一点如有疑问，可以看后续。</p>
+<h4 id="语法行为"><a href="#语法行为" class="headerlink" title="语法行为"></a>语法行为</h4><p>那generator函数的语法行为究竟与传统函数不同在哪里呢？下边我们来梳理下generator函数的运行步骤。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var it = firstGenerator();</div><div class="line">console.log(it.next(1));  // &#123;value: &quot;one&quot;, done: false&#125;</div><div class="line">console.log(it.next(2));  // &#123;value: &quot;two&quot;, done: false&#125;</div><div class="line">console.log(it.next(3));  // &#123;value: &quot;third&quot;, done: false&#125;</div><div class="line">console.log(it.next(4));  // &#123;value: &quot;over&quot;, done: true&#125;</div></pre></td></tr></table></figure>
+<p>首先通过执行 <code>firstGenerator</code> 函数，我们可以得到一个generator对象 <code>it</code>，它是一个迭代器对象。此时， <code>firstGenerator</code> 函数并<strong>未执行</strong>，只是返回了迭代器对象 <code>it</code> ，我们可以通过 <code>it</code> 对象中 <code>next</code> 方法触发 <code>firstGenerator</code> 函数开始执行，此时我们调用 <code>it.next(1)</code>，注意 <code>next</code> 注入的参数 <code>1</code> 并没有任何效果。当 <code>firstGenerator</code> 函数执行到 <code>yield</code> 语句时，被打了断点，停留在此处，并将 <code>yield</code> 后的变量传递给 <code>it.next(1)</code> 结果对象中的 <code>value</code> 字段，另外其中的 <code>done</code> 字段表示 <code>firstGenerator</code> 函数尚未完全执行完，还停留在断点。以此同时，将执行权交换给 <code>it.next(1)</code>。</p>
+<p>执行第二次 <code>it.next(2)</code>，执行权再次交给 <code>firstGenerator</code> 函数，并将 <code>next</code> 带入的参数传递给函数中的变量 <code>one</code>，此时输出 <code>2</code>。当运行到 <code>yield &#39;two&#39;</code> 语句时，再次将执行权返回给 <code>it.next(2)</code> 并传值。</p>
+<p>第三次执行 <code>it.next(3)</code>的过程与第二次完全一样。</p>
+<p>最后一次执行 <code>it.next(4)</code> 时，在此之前， <code>firstGenerator</code> 函数断点在 <code>var third = yield &#39;third&#39;</code>，当 <code>it.next(4)</code> 将执行权交给 <code>firstGenerator</code> 函数时，将 <code>4</code> 传递给变量 <code>third</code>，此刻输出 <code>4</code>。当执行到 <code>return</code> 语句时，整个函数已经执行完了，并将 <code>&#39;over&#39;</code>传递给 <code>it.next(4)</code> 返回结果中的 <code>value</code> 字段，且 <code>done</code> 字段为 <code>true</code>。<br>若没有 <code>return</code> 语句，则 <code>value</code> 字段返回 <code>null</code>。</p>
+<p>这样下来，整个 <code>firstGenerator</code> 整个函数执行完毕。<br>我们可以将Generator函数比喻成<strong>懒惰的癞蛤蟆</strong>，每次都需要使用<strong>it.next()</strong>方法戳一下，才会有对应的行动。<br>如果大家了解python中协程的概念，应该很好理解Generator函数的语法行为。</p>
+<h4 id="进阶语法"><a href="#进阶语法" class="headerlink" title="进阶语法"></a>进阶语法</h4><p>在Generator函数中 <code>yield</code> 的语法，其后边的值也可以是函数、对象等等。<br><code>yield</code> 后边可以是另一个Generator对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">function* subGen() &#123;</div><div class="line">    console.log(&apos;step in sub generator&apos;);</div><div class="line">    var b = yield &apos;sub 1&apos;;</div><div class="line">    console.log(b);</div><div class="line">    console.log(&apos;step out sub generator&apos;);</div><div class="line">&#125;</div><div class="line">var subGenerator = new subGen();</div><div class="line">function* mainGen() &#123;</div><div class="line">    var a = yield &apos;main 1&apos;;</div><div class="line">    console.log(a);</div><div class="line">    var b = yield *subGenerator;</div><div class="line">    console.log(b);</div><div class="line">    var c = yield &apos;main 2&apos;;</div><div class="line">    console.log(c);</div><div class="line">    return &apos;over&apos;;</div><div class="line">&#125;</div><div class="line">var it = mainGen();</div><div class="line">console.log(it.next(1));</div><div class="line">// &#123;value: &apos;main 1&apos;, done: false&#125;</div><div class="line">console.log(it.next(2));</div><div class="line">// 2</div><div class="line">// step in sub generator</div><div class="line">// &#123;value: &apos;sub 1&apos;, done: false&#125;</div><div class="line">console.log(it.next(3));</div><div class="line">// 3</div><div class="line">// step out sub generator</div><div class="line">// null</div><div class="line">// &#123;value: &apos;main 2&apos;, done: false&#125;</div><div class="line">console.log(it.next(4));</div><div class="line">// 4</div><div class="line">// &#123;value: &apos;over&apos;, done: true&#125;</div></pre></td></tr></table></figure>
+<p><code>yield</code> 后面跟着 <code>*subGenerator</code> 对象，这等同于断点就进入 <code>subGenerator</code> 的 <code>subGen</code>里面，等待 <code>subGen</code> 全部执行完后再回来继续执行，类似于递归。<br>直白点说，就是将 <code>subGen</code> 内嵌到 <code>mainGen</code>中。</p>
+<p><strong>在<code>subGen</code>函数中的return语句并不会起到断点的作用</strong></p>
+<h4 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h4><p>Generator函数作为ES6的新特性，通过它可以很好的解决JavaScript中的<strong>恶魔</strong>回调问题。<br>Koa框架使用这特性很好组织了异步代码的结构。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Abstract&quot;&gt;&lt;a href=&quot;#Abstract&quot; class=&quot;headerlink&quot; title=&quot;Abstract&quot;&gt;&lt;/a&gt;Abstract&lt;/h2&gt;&lt;p&gt;本系列是关于Koa框架的文章，目前关注版本是&lt;strong&gt;Koa v1&lt;/strong&gt;。主要分为以下几个方面：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（一）-generator/&quot;&gt;Koa源码分析（一） – generator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（二）-co的实现/&quot;&gt;Koa源码分析（二） – co的实现&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/09/Koa源码分析（三）-middleware机制的实现/&quot;&gt;Koa源码分析（三） – middleware机制的实现&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;Genetator函数&quot;&gt;&lt;a href=&quot;#Genetator函数&quot; class=&quot;headerlink&quot; title=&quot;Genetator函数&quot;&gt;&lt;/a&gt;Genetator函数&lt;/h2&gt;&lt;p&gt;Generator函数是ES6提供的一种异步编程解决方案，其语法行为完全不同于传统函数。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;详细解析可见阮一峰老师的&lt;a href=&quot;http://es6.ruanyifeng.com/#docs/generator&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;《ECMAScript 6 入门 — Generator》&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="源码" scheme="https://raulzuo.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="node.js" scheme="https://raulzuo.github.io/tags/node-js/"/>
+    
+      <category term="koa" scheme="https://raulzuo.github.io/tags/koa/"/>
+    
+  </entry>
+  
+</feed>
