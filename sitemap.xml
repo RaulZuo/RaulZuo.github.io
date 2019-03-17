@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://raulzuo.github.io/test/</loc>
+    
+    <lastmod>2019-03-17T06:55:43.217Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://raulzuo.github.io/tags/index.html</loc>
     
     <lastmod>2019-03-17T06:39:04.079Z</lastmod>
@@ -16,14 +23,14 @@
   </url>
   
   <url>
-    <loc>https://raulzuo.github.io/koa-generator/</loc>
+    <loc>https://raulzuo.github.io/about/index.html</loc>
     
     <lastmod>2019-03-17T06:39:04.076Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://raulzuo.github.io/about/index.html</loc>
+    <loc>https://raulzuo.github.io/koa-generator/</loc>
     
     <lastmod>2019-03-17T06:39:04.076Z</lastmod>
     
@@ -44,13 +51,6 @@
   </url>
   
   <url>
-    <loc>https://raulzuo.github.io/CSS-sticky/</loc>
-    
-    <lastmod>2019-03-17T06:39:04.075Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://raulzuo.github.io/CSS-inter-radius/</loc>
     
     <lastmod>2019-03-17T06:39:04.075Z</lastmod>
@@ -59,6 +59,13 @@
   
   <url>
     <loc>https://raulzuo.github.io/koa-co/</loc>
+    
+    <lastmod>2019-03-17T06:39:04.075Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://raulzuo.github.io/CSS-sticky/</loc>
     
     <lastmod>2019-03-17T06:39:04.075Z</lastmod>
     
