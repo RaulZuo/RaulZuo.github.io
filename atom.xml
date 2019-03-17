@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://raulzuo.github.io/"/>
-  <updated>2019-03-17T06:55:43.217Z</updated>
+  <updated>2019-03-17T11:20:24.666Z</updated>
   <id>https://raulzuo.github.io/</id>
   
   <author>
@@ -17,23 +17,27 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>test</title>
-    <link href="https://raulzuo.github.io/test/"/>
-    <id>https://raulzuo.github.io/test/</id>
-    <published>2019-03-17T06:53:51.000Z</published>
-    <updated>2019-03-17T06:55:43.217Z</updated>
+    <title>js-excel</title>
+    <link href="https://raulzuo.github.io/js-excel/"/>
+    <id>https://raulzuo.github.io/js-excel/</id>
+    <published>2019-03-17T07:26:26.000Z</published>
+    <updated>2019-03-17T11:20:24.666Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3>]]></content>
+    <content type="html"><![CDATA[<h2 id="纯JavaScript前端解析Excel文件"><a href="#纯JavaScript前端解析Excel文件" class="headerlink" title="纯JavaScript前端解析Excel文件"></a>纯JavaScript前端解析Excel文件</h2><p>通常情况下，读取Excel都有由后台来处理，不过会出现需要前端直接解析文件然后再校验内容格式是否正确。<br>在这种情况下，只需通过 <a href="https://www.npmjs.com/package/xlsx" target="_blank" rel="noopener">xlsc</a> 就能实现。</p><h3 id="解析Excel文件"><a href="#解析Excel文件" class="headerlink" title="解析Excel文件"></a>解析Excel文件</h3><p>使用 <code>FileReader</code> 对象读取指定的 <code>File</code> 和 <code>Blob</code> 对象指定要读取的文件或者数据，在 <code>FileReader</code> 对象加载结束（onload事件）后进行Excel数据的处理。</p><p>整个Excel数据处理中，主要是以下四个对象和函数：</p><ol><li>workbook对象，整个xlsx文件</li><li>worksheet对象，xlsx文件中的sheet，一个workbook由多个worksheet组成</li><li>XLSX.utils.sheet_to_json方法，将worksheet转化为JSON数据</li><li>XLSX.utils.json_to_sheet方法，将JSON数据转换成worksheet对象</li></ol><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> XLSX <span class="keyword">from</span> <span class="string">'xlsx'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">reader.onload = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 获取 workbook</span></span><br><span class="line">  <span class="keyword">const</span> wb = XLSX.read(event.target.result, &#123; <span class="attr">type</span>: <span class="string">'binary'</span> &#125;);</span><br><span class="line">  <span class="comment">// 获取 workbook 第一个 worksheet 中的数据</span></span><br><span class="line">  <span class="keyword">const</span> ws = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[<span class="number">0</span>]]);</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 读取原始 file 或者 blob，并将该文件转化为原始二进制数据</span></span><br><span class="line">reader.readAsBinaryString(file);</span><br></pre></td></tr></table></figure><h3 id="JSON数据转化为Excel文件"><a href="#JSON数据转化为Excel文件" class="headerlink" title="JSON数据转化为Excel文件"></a>JSON数据转化为Excel文件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> XLSX <span class="keyword">from</span> <span class="string">"xlsx"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建 worksheet</span></span><br><span class="line"><span class="keyword">const</span> ws = XLSX.utils.json_to_sheet(data);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 新建空workbook，然后加入worksheet</span></span><br><span class="line"><span class="keyword">const</span> wb = XLSX.utils.book_new();</span><br><span class="line">XLSX.utils.book_append_sheet(wb, ws, <span class="string">"sheet1"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成 xlsx 文件</span></span><br><span class="line">XLSX.writeFile(wb, <span class="string">"sheetjs.xlsx"</span>);</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h3 id=&quot;test&quot;&gt;&lt;a href=&quot;#test&quot; class=&quot;headerlink&quot; title=&quot;test&quot;&gt;&lt;/a&gt;test&lt;/h3&gt;
+        &lt;h2 id=&quot;纯JavaScript前端解析Excel文件&quot;&gt;&lt;a href=&quot;#纯JavaScript前端解析Excel文件&quot; class=&quot;headerlink&quot; title=&quot;纯JavaScript前端解析Excel文件&quot;&gt;&lt;/a&gt;纯JavaScript前端解析Excel
       
     
     </summary>
     
+      <category term="前端基础" scheme="https://raulzuo.github.io/categories/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="javascript" scheme="https://raulzuo.github.io/tags/javascript/"/>
     
   </entry>
   
